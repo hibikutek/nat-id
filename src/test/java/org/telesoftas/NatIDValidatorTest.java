@@ -18,6 +18,6 @@ public class NatIDValidatorTest
     @Test
     public void validID()
     {
-        assertTrue(NatIDValidator.validate(VALID_ID));
+        assertTrue(NatIDValidator.validateID(VALID_ID));
     }
 }
