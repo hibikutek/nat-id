@@ -16,6 +16,7 @@ public class NatIDValidatorTest
 {
 
     public static final long VALID_ID = 36412170085L;
+    public static final long INVALID_ID = 20018320000L;
     public static final long INVALID_LENGTH_ID = 364121700L;
     public static  List<Long> VALID_STARTING_ID_LIST = Arrays.asList(
             36412170085L, 56412170085L, 46412170085L, 66412170085L);
@@ -28,6 +29,16 @@ public class NatIDValidatorTest
             36413170085L, 39403329485L, 32102290085L, 30001000085L);
     public static  List<Long> INVALID_CONTROL_DIGIT_LIST = Arrays.asList(
             36413170085L, 39403329485L, 32102290085L, 30001000085L);
+
+    @Test
+    public void validID() {
+        assertTrue(NatIDValidator.validateID(VALID_ID));
+    }
+
+    @Test
+    public void invalidID() {
+        assertFalse(NatIDValidator.validateID(INVALID_ID));
+    }
 
     @Test
     public void validLength()
