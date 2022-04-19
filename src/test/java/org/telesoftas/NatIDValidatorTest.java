@@ -26,9 +26,9 @@ public class NatIDValidatorTest
     public static  List<Long> INVALID_DATE_ID_LIST = Arrays.asList(
             36413170085L, 39403329485L, 32102290085L, 30001000085L);
     public static  List<Long> VALID_CONTROL_DIGIT_LIST = Arrays.asList(
-            36413170085L, 39403329485L, 32102290085L, 30001000085L);
+            36412170085L, 49210022922L, 30001000085L);
     public static  List<Long> INVALID_CONTROL_DIGIT_LIST = Arrays.asList(
-            36413170085L, 39403329485L, 32102290085L, 30001000085L);
+            36413170085L, 39403329485L, 32102290085L);
 
     @Test
     public void validID() {
@@ -78,7 +78,7 @@ public class NatIDValidatorTest
             assertFalse(new DateValidator().validate(id));
         }
     }
-    /* TODO implement control digit tests
+
     @Test
     public void validControlDigit() {
         for (long id : VALID_CONTROL_DIGIT_LIST) {
@@ -89,7 +89,7 @@ public class NatIDValidatorTest
     @Test
     public void invalidControlDigit() {
         for (long id : INVALID_CONTROL_DIGIT_LIST) {
-            assertTrue(new ControlDigitValidator().validate(id));
+            assertFalse(new ControlDigitValidator().validate(id));
         }
-    }*/
+    }
 }

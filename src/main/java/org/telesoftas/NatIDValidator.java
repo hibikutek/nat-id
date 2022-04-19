@@ -11,8 +11,8 @@ public class NatIDValidator
         compositeValidator.addValidator(new StartingDigitValidator());
         // Validate id digits 2-7 represent a valid date format
         compositeValidator.addValidator(new DateValidator());
-        // TODO: add Control Digit validator
-
+        // Validate id control digit
+        compositeValidator.addValidator(new ControlDigitValidator());
 
         return compositeValidator.validate(id);
     }
