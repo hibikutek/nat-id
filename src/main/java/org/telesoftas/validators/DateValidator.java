@@ -1,7 +1,10 @@
-package org.telesoftas;
+package org.telesoftas.validators;
+
+import org.telesoftas.Result;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeParseException;
 
 
 public class DateValidator implements Validator {
@@ -14,16 +17,14 @@ public class DateValidator implements Validator {
      * @return true if valid date or edge case, false if failure to parse date
      */
     @Override
-    public boolean validate(long id) {
+    public Result validate(long id) {
         String strID = String.valueOf(id).substring(1, 7);
-        if (strID.matches("000000")) return true;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMdd");
-        dateFormat.setLenient(false);
+        if (strID.matches("000000")) return Result.OK;
         try {
-            dateFormat.parse(strID);
-            return true;
-        } catch (ParseException e) {
-            return false;
+            System.out.println(Utils.parseBirthDate(id));
+            return Result.OK;
+        } catch (DateTimeParseException e) {
+            return Result.ERROR.setMessage("ID birthdate is invalid");
         }
     }
 }

@@ -1,20 +1,17 @@
-package org.telesoftas;
+package org.telesoftas.validators;
 
-import java.util.Arrays;
+import org.jetbrains.annotations.NotNull;
+import org.telesoftas.Result;
 
 public class ControlDigitValidator implements Validator {
-    /**
-     * TODO: Implement simple version of validator
-     * @param id National ID
-     * @return true if control digit properly evaulates
-     */
+
     @Override
-    public boolean validate(long id) {
+    public Result validate(long id) {
         char[] charArrayID = String.valueOf(id).toCharArray();
         return firstPass(charArrayID);
     }
 
-    private boolean firstPass(char[] charArrayID) {
+    private Result firstPass(char @NotNull [] charArrayID) {
         int sum = 0;
         int controlDigit = Character.getNumericValue(charArrayID[charArrayID.length - 1]);
 
@@ -27,11 +24,11 @@ public class ControlDigitValidator implements Validator {
         }
         int result = sum % 11;
 
-        if (result < 10 && result == controlDigit) return true;
+        if (result < 10 && result == controlDigit) return Result.OK;
         return secondPass(charArrayID);
     }
 
-    private boolean secondPass(char[] charArrayID) {
+    private Result secondPass(char @NotNull [] charArrayID) {
         int sum = 0;
         int controlDigit = Character.getNumericValue(charArrayID[charArrayID.length - 1]);
 
@@ -44,7 +41,8 @@ public class ControlDigitValidator implements Validator {
         }
         int result = sum % 11;
 
-        if (result < 10 && result == controlDigit) return true;
-        return charArrayID[charArrayID.length - 1] == 0;
+        if (result < 10 && result == controlDigit) return Result.OK;
+        if (charArrayID[charArrayID.length - 1] == 0) return Result.OK;
+        return Result.ERROR.setMessage("ID Has an invalid Control digit");
     }
 }

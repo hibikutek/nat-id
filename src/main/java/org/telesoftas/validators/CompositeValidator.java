@@ -1,4 +1,6 @@
-package org.telesoftas;
+package org.telesoftas.validators;
+
+import org.telesoftas.Result;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +17,12 @@ public class CompositeValidator implements Validator{
      * @param id The National ID to validate
      * @return true if it passes all validators, false otherwise
      */
-    public boolean validate(long id) {
-        boolean result = false;
+    public Result validate(long id) {
+        Result result = Result.OK;
         for (Validator validator : validators) {
             result = validator.validate(id);
-            if (!result) {
-                break;
+            if (!result.isValid()) {
+                return result;
             }
         }
         return result;
