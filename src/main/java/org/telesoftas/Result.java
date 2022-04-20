@@ -22,4 +22,10 @@ public class Result {
         this.message = message;
         return this;
     }
+
+    @Override
+    public String toString() {
+        if (isValid()) return "OK";
+        return "ERROR";
+    }
 }

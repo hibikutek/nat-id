@@ -21,7 +21,7 @@ public class DateValidator implements Validator {
         String strID = String.valueOf(id).substring(1, 7);
         if (strID.matches("000000")) return Result.OK;
         try {
-            System.out.println(Utils.parseBirthDate(id));
+            Utils.parseBirthDate(id);
             return Result.OK;
         } catch (DateTimeParseException e) {
             return Result.ERROR.setMessage("ID birthdate is invalid");
