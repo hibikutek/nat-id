@@ -46,53 +46,53 @@ public class NatIDValidatorTest
     @Test
     public void validLength()
     {
-        assertTrue(new LengthValidator().validate(VALID_ID).isValid());
+        assertTrue(new LengthValidator(VALID_ID).validate().join().isValid());
     }
 
     @Test
     public void invalidLength() {
-        assertFalse(new LengthValidator().validate(INVALID_LENGTH_ID).isValid());
+        assertFalse(new LengthValidator(INVALID_LENGTH_ID).validate().join().isValid());
     }
 
     @Test
     public void validStartingDigit() {
         for(long id : VALID_STARTING_ID_LIST) {
-            assertTrue(new GenderValidator().validate(id).isValid());
+            assertTrue(new GenderValidator(id).validate().join().isValid());
         }
     }
 
     @Test
     public void invalidStartingDigit() {
         for (long id : INVALID_STARTING_ID_LIST) {
-            assertFalse(new GenderValidator().validate(id).isValid());
+            assertFalse(new GenderValidator(id).validate().join().isValid());
         }
     }
 
     @Test
     public void validDate() {
         for (long id : VALID_DATE_ID_LIST) {
-            assertTrue(new DateValidator().validate(id).isValid());
+            assertTrue(new DateValidator(id).validate().join().isValid());
         }
     }
 
     @Test
     public void invalidDate() {
         for (long id : INVALID_DATE_ID_LIST) {
-            assertFalse(new DateValidator().validate(id).isValid());
+            assertFalse(new DateValidator(id).validate().join().isValid());
         }
     }
 
     @Test
     public void validControlDigit() {
         for (long id : VALID_CONTROL_DIGIT_LIST) {
-            assertTrue(new ControlDigitValidator().validate(id).isValid());
+            assertTrue(new ControlDigitValidator(id).validate().join().isValid());
         }
     }
 
     @Test
     public void invalidControlDigit() {
         for (long id : INVALID_CONTROL_DIGIT_LIST) {
-            assertFalse(new ControlDigitValidator().validate(id).isValid());
+            assertFalse(new ControlDigitValidator(id).validate().join().isValid());
         }
     }
 }

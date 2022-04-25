@@ -3,11 +3,23 @@ package org.telesoftas.validators;
 import org.jetbrains.annotations.NotNull;
 import org.telesoftas.Result;
 
+import java.util.concurrent.CompletableFuture;
+
 public class ControlDigitValidator implements Validator {
 
+    private final long id;
+
+    public ControlDigitValidator(long id) {
+        this.id = id;
+    }
+
     @Override
-    public Result validate(long id) {
-        char[] charArrayID = String.valueOf(id).toCharArray();
+    public CompletableFuture<Result> validate() {
+        return CompletableFuture.supplyAsync(this::isControlDigitValid);
+    }
+
+    public Result isControlDigitValid() {
+        char[] charArrayID = String.valueOf(this.id).toCharArray();
         return firstPass(charArrayID);
     }
 

@@ -1,30 +1,36 @@
 package org.telesoftas.validators;
 
+import org.jetbrains.annotations.NotNull;
 import org.telesoftas.Result;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-public class CompositeValidator implements Validator{
-    List<Validator> validators = new ArrayList<>();
+public class CompositeValidator {
+    List<Mono<Result>> validationMonos = new ArrayList<>();
 
-    public void addValidator(Validator validator) {
-        validators.add(validator);
+    public void addValidator(@NotNull Validator validator) {
+        Mono<Result> val = Mono.fromFuture(validator.validate());
+        validationMonos.add(val);
     }
 
     /**
      * Runs all the validators against the given ID
-     * @param id The National ID to validate
      * @return true if it passes all validators, false otherwise
      */
-    public Result validate(long id) {
-        Result result = Result.OK;
-        for (Validator validator : validators) {
-            result = validator.validate(id);
-            if (!result.isValid()) {
-                return result;
-            }
-        }
-        return result;
+    public Result validate() {
+        return Flux.fromStream(validationMonos.stream())
+                .parallel()
+                .runOn(Schedulers.parallel())
+                .flatMap(mono -> mono)
+                .filter(result -> !result.isValid())
+                .sequential()
+                .next()
+                .switchIfEmpty(Mono.just(Result.OK))
+                .block();
     }
 }

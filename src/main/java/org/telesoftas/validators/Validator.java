@@ -3,6 +3,8 @@ package org.telesoftas.validators;
 
 import org.telesoftas.Result;
 
+import java.util.concurrent.CompletableFuture;
+
 public interface Validator{
-    Result validate(long id);
+    CompletableFuture<Result> validate();
 }
